@@ -14,7 +14,9 @@
 /*prototypes*/
 int _printf(const char *format, ...);
 
+int print_str(va_list ap);
 
+int print_int(int d);
 
 
 

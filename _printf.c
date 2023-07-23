@@ -1,5 +1,4 @@
 #include "main.h"
-int print_str(va_list ap);
 
 /**
  * _printf - function that produces output accroding
@@ -12,12 +11,11 @@ int print_str(va_list ap);
  */
 int _printf(const char *format, ...)
 {
-	int ch_count = 0;
-	int str_count;
+	int ch_count = 0, i = 0, str_count;
 	va_list args_ptr;
 
 	va_start(args_ptr, format);
-	if (!(format))
+	if (!(format) || (format[i] == '\0' && !format[i + 1]))
 		return (-1);
 	while (*format)
 	{
@@ -26,20 +24,24 @@ int _printf(const char *format, ...)
 			format++;
 			switch (*format)
 			{
-				case 's':
-						str = print_str(args_ptr);
-						ch_count += str;
-						break;
-				case 'c':
-						putchar(va_arg(args_ptr, int));
-						ch_count++;
-						break;
-				case '%':
-						putchar('%');
-						ch_count++;
-						break;
-				default:
-						return (-1);
+			case 's':
+				str_count = print_str(args_ptr);
+				ch_count += str_count;
+				break;
+			case 'c':
+				putchar(va_arg(args_ptr, int));
+				ch_count++;
+				break;
+			case '%':
+				putchar('%');
+				ch_count++;
+				break;
+			case 'd':
+			case 'i':
+				ch_count += print_int(va_arg(args_ptr, int));
+				break;
+			default:
+				return (-1);
 			}
 		}
 		else
@@ -47,32 +49,9 @@ int _printf(const char *format, ...)
 			putchar(*format);
 			ch_count++;
 		}
-		format++;
 	}
+		format++;
 	va_end(args_ptr);
 	return (ch_count);
 }
 
-/**
- * print_str - function that print string
- *
- * @ap: list of arguements
- *
- * Return: number of chars print on screen
- */
-int print_str(va_list ap)
-{
-	int count = 0;
-	char *str;
-
-	str = va_arg(ap, char *);
-	if (!(str))
-		fputs("(null)", stdout);
-	while (*str)
-	{
-		putchar(*str);
-		count++;
-		str++;
-	}
-	return (count);
-}
