@@ -3,14 +3,17 @@
 /**
  * print_int - function that prints numbers.
  *
- * @d: the number that will be given.
+ * @ap: list of arguements
  *
- * Return: the size of the whole number.
+ * Return: number of chars print on screen
  */
-int print_int(int d)
+int print_int(va_list ap)
 {
 	int i = 0, char_count = 0;
 	char buffer[20];
+	int d;
+
+	d = va_arg(ap, int); /* get the int value of the argument */
 
 	if (d == 0)
 	{
@@ -73,3 +76,67 @@ int print_str(va_list ap)
 	return (count);
 }
 
+/**
+ * print_char - function that print char
+ *
+ * @ap: list of arguements
+ *
+ * Return: number of chars print on screen
+ */
+int print_char(va_list ap)
+{
+	int c;
+
+	c = va_arg(ap, int); /* get the int value of the char argument */
+	putchar(c);			 /* print it as a char */
+	return (1);			 /* return 1 because only one char is printed */
+}
+
+/**
+ * print_mod - function that print %
+ *
+ * @ap: list of arguements
+ *
+ * Return: number of chars print on screen
+ */
+int print_mod(va_list ap)
+{
+	ap = ap;	  /* unused parameter */
+	putchar('%'); /* print % as it is */
+	return (1);	  /* return 1 because only one char is printed */
+}
+
+/**
+ * print_binary - function that prints the binary of number
+ *
+ * @ap: list of arguements
+ *
+ * Return: number of numbers print on screen
+ */
+int print_binary(va_list ap)
+{
+	unsigned int num = va_arg(ap, unsigned int);
+	int binary[32], i = 0, count = 0, j = 0;
+
+	while (num > 0)
+	{
+		binary[i] = num % 2;
+		num /= 2;
+		i++;
+	}
+
+	for (j = i - 1; j >= 0; j--)
+	{
+		if (binary[j] == 0)
+		{
+			putchar('0');
+			count++;
+		}
+		else
+		{
+			putchar('1');
+			count++;
+		}
+	}
+	return (count);
+}

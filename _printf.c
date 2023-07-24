@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * _printf - function that produces output accroding
+ * _printf - function that produces output according
  *      to 3 specifiers c, s, %
  *
  * @format: char string which contain specifier
@@ -11,7 +11,7 @@
  */
 int _printf(const char *format, ...)
 {
-	int ch_count = 0, i = 0, str_count;
+	int ch_count = 0, i = 0;
 	va_list args_ptr;
 
 	va_start(args_ptr, format);
@@ -22,36 +22,15 @@ int _printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			switch (*format)
-			{
-			case 's':
-				str_count = print_str(args_ptr);
-				ch_count += str_count;
-				break;
-			case 'c':
-				putchar(va_arg(args_ptr, int));
-				ch_count++;
-				break;
-			case '%':
-				putchar('%');
-				ch_count++;
-				break;
-			case 'd':
-			case 'i':
-				ch_count += print_int(va_arg(args_ptr, int));
-				break;
-			default:
-				return (-1);
-			}
+			ch_count += handle_specifiers(args_ptr, format);
 		}
 		else
 		{
 			putchar(*format);
 			ch_count++;
 		}
-	}
 		format++;
+	}
 	va_end(args_ptr);
 	return (ch_count);
 }
-
