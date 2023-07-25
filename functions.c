@@ -3,42 +3,46 @@
 /**
  * print_int - function that prints numbers.
  *
- * @ap: list of arguements
+ * @d: list of arguements
  *
- * Return: number of chars print on screen
+ * Return: numbers to print on screen
  */
-int print_int(va_list ap)
+
+int print_int(int d)
 {
-	int i = 0, char_count = 0;
-	char buffer[20];
-	int d;
-
-	d = va_arg(ap, int); /* get the int value of the argument */
-
-	if (d == 0)
-	{
-		char_count += putchar('0');
-		i++;
-	}
+	int char_count = 0;
 
 	if (d < 0)
 	{
 		char_count += putchar('-');
 		d = -d;
 	}
-
-	if (d > 0)
+	else
 	{
-		while (d > 0)
-		{
-			buffer[i++] = (d % 10) + '0';
-			d /= 10;
-		}
+		char_count += len_num(d);
+	}
 
-		while (i > 0)
-		{
-			char_count += putchar(buffer[--i]);
-		}
+	if (d == -2147483648)
+	{
+		putchar('-');
+		putchar('2');
+		print_int(147483648);
+	}
+	else if (d < 0)
+	{
+		putchar('-');
+		char_count++;
+		d = -d;
+	}
+
+	if (d >= 10)
+	{
+		print_int(d / 10);
+		print_int(d % 10);
+	}
+	else if (d < 10)
+	{
+		putchar(d + '0');
 	}
 	return (char_count);
 }
@@ -87,9 +91,9 @@ int print_char(va_list ap)
 {
 	int c;
 
-	c = va_arg(ap, int); /* get the int value of the char argument */
-	putchar(c);			 /* print it as a char */
-	return (1);			 /* return 1 because only one char is printed */
+	c = va_arg(ap, int);
+	putchar(c);
+	return (1);
 }
 
 /**
@@ -101,9 +105,9 @@ int print_char(va_list ap)
  */
 int print_mod(va_list ap)
 {
-	ap = ap;	  /* unused parameter */
-	putchar('%'); /* print % as it is */
-	return (1);	  /* return 1 because only one char is printed */
+	ap = ap;
+	putchar('%');
+	return (1);
 }
 
 /**

@@ -11,8 +11,10 @@
  */
 int handle_specifiers(va_list args_ptr, const char *format)
 {
-	int ch_count = 0;
+	int ch_count = 0, num;
 
+	if (*format == ' ' || *format == '\0')
+		return (-1);
 	switch (*format)
 	{
 	case 's':
@@ -26,7 +28,11 @@ int handle_specifiers(va_list args_ptr, const char *format)
 		break;
 	case 'd':
 	case 'i':
-		ch_count += print_int(args_ptr);
+		num = va_arg(args_ptr, int);
+		if (num < 0)
+			ch_count++;
+		ch_count += len_num(num);
+		print_int(num);
 		break;
 	case 'b':
 		ch_count += print_binary(args_ptr);
@@ -38,7 +44,9 @@ int handle_specifiers(va_list args_ptr, const char *format)
 		ch_count += print_rot(args_ptr);
 		break;
 	default:
-		return (-1);
+		ch_count += putchar('%');
+		ch_count += putchar(*format);
+		break;
 	}
 	return (ch_count);
 }
@@ -125,3 +133,24 @@ int print_rot(va_list ap)
 	}
 	return (count);
 }
+
+/**
+ * len_num - function that prints numbers.
+ *
+ * @num: int number.
+ *
+ * Return: number.
+ */
+
+int len_num(int num)
+{
+	if (num == 0)
+	{
+		return (0);
+	}
+	else
+	{
+		return (1 + len_num(num / 10));
+	}
+}
+
