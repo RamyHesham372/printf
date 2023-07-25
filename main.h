@@ -15,6 +15,7 @@ int print_mod(va_list ap);
 int print_int(va_list ap);
 int print_binary(va_list ap);
 int handle_specifiers(va_list args_ptr, const char *format);
+int print_reverse(va_list ap);
+int print_rot(va_list ap);
 
 #endif
-

@@ -31,9 +31,97 @@ int handle_specifiers(va_list args_ptr, const char *format)
 	case 'b':
 		ch_count += print_binary(args_ptr);
 		break;
+	case 'r':
+		ch_count += print_reverse(args_ptr);
+		break;
+	case 'R':
+		ch_count += print_rot(args_ptr);
+		break;
 	default:
 		return (-1);
 	}
 	return (ch_count);
 }
 
+/**
+ * print_reverse - function that reverse string
+ *
+ * @ap: pointer to arguements
+ *
+ * Return: the counter
+ */
+int print_reverse(va_list ap)
+{
+	int count = 0, len, i;
+	char *str_null = "(llun)", *str;
+
+	str = va_arg(ap, char *);
+	if (str == NULL)
+	{
+		while (*str_null)
+		{
+			putchar(*str_null);
+			count++;
+			str_null++;
+		}
+		return (count);
+	}
+
+	for (len = 0; str[len] != '\0'; len++)
+		;
+	for (i = len - 1; i >= 0; i--)
+	{
+		putchar(str[i]);
+		count++;
+	}
+	return (count);
+}
+
+/**
+ * print_rot - function that use rot13
+ *
+ * @ap: pointer to arguements
+ *
+ * Return: the counter
+ */
+int print_rot(va_list ap)
+{
+	int i, e, count = 0;
+	char *null_str = "(avyy)";
+	char *str;
+	char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	char rot[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
+
+	str = va_arg(ap, char *);
+	if (str == NULL)
+	{
+		while (*null_str)
+		{
+			putchar(*null_str);
+			count++;
+			null_str++;
+		}
+		return (count);
+	}
+	else
+	{
+		for (i = 0; *(str + i) != '\0'; i++)
+		{
+			for (e = 0; e < 52; e++)
+			{
+				if (str[i] == alphabet[e])
+				{
+					putchar(rot[e]);
+					count++;
+					break;
+				}
+			}
+			if (e == 52)
+			{
+				putchar(*(str + i));
+				count++;
+			}
+		}
+	}
+	return (count);
+}
