@@ -44,8 +44,9 @@ int handle_specifiers(va_list args_ptr, const char *format)
 		ch_count += print_rot(args_ptr);
 		break;
 	default:
-		ch_count += putchar('%');
-		ch_count += putchar(*format);
+		putchar('%');
+		putchar(*format);
+		ch_count += 2;
 		break;
 	}
 	return (ch_count);
@@ -153,4 +154,3 @@ int len_num(int num)
 		return (1 + len_num(num / 10));
 	}
 }
-
