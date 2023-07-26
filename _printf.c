@@ -29,7 +29,7 @@ int _printf(const char *format, ...)
 		}
 		else
 		{
-			putchar(*format);
+			_putchar(*format);
 			ch_count++;
 		}
 		format++;
