@@ -145,15 +145,13 @@ int print_rot(va_list ap)
 
 int len_num(int num)
 {
-	int count = 0;
-
 	if (num == 0)
 	{
-		count++;
-		return (count);
+		return (0);
 	}
 	else
 	{
 		return (1 + len_num(num / 10));
 	}
 }
+

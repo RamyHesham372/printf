@@ -24,10 +24,8 @@ int print_int(int d)
 
 	if (d == -2147483648)
 	{
-		char_count += 1;
 		putchar('2');
 		print_int(147483648);
-		return (char_count);
 	}
 	else if (d < 0)
 	{
