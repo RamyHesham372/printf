@@ -29,7 +29,10 @@ int handle_specifiers(va_list args_ptr, const char *format)
 	case 'd':
 	case 'i':
 		num = va_arg(args_ptr, int);
-		ch_count += print_int(num, 1);
+		if (num < 0)
+			ch_count++;
+		ch_count += len_num(num);
+		print_int(num);
 		break;
 	case 'b':
 		ch_count += print_binary(args_ptr);
@@ -41,10 +44,9 @@ int handle_specifiers(va_list args_ptr, const char *format)
 		ch_count += print_rot(args_ptr);
 		break;
 	default:
-		_putchar('%');
-		ch_count++;
-		_putchar(*format);
-		ch_count++;
+		putchar('%');
+		putchar(*format);
+		ch_count += 2;
 		break;
 	}
 	return (ch_count);
@@ -67,7 +69,7 @@ int print_reverse(va_list ap)
 	{
 		while (*str_null)
 		{
-			_putchar(*str_null);
+			putchar(*str_null);
 			count++;
 			str_null++;
 		}
@@ -78,7 +80,7 @@ int print_reverse(va_list ap)
 		;
 	for (i = len - 1; i >= 0; i--)
 	{
-		_putchar(str[i]);
+		putchar(str[i]);
 		count++;
 	}
 	return (count);
@@ -104,7 +106,7 @@ int print_rot(va_list ap)
 	{
 		while (*null_str)
 		{
-			_putchar(*null_str);
+			putchar(*null_str);
 			count++;
 			null_str++;
 		}
@@ -118,14 +120,14 @@ int print_rot(va_list ap)
 			{
 				if (str[i] == alphabet[e])
 				{
-					_putchar(rot[e]);
+					putchar(rot[e]);
 					count++;
 					break;
 				}
 			}
 			if (e == 52)
 			{
-				_putchar(*(str + i));
+				putchar(*(str + i));
 				count++;
 			}
 		}
@@ -155,16 +157,3 @@ int len_num(int num)
 		return (1 + len_num(num / 10));
 	}
 }
-
-/**
- * _putchar - prints a char
- *
- * @c: one character
- *
- * Return:num
- */
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
-}
-

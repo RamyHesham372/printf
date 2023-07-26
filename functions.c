@@ -4,42 +4,47 @@
  * print_int - function that prints numbers.
  *
  * @d: list of arguements
- * @checker: input checker.
  *
  * Return: numbers to print on screen
  */
 
-int print_int(int d, int checker)
+int print_int(int d)
 {
 	int char_count = 0;
 
-	if (d == 0 && checker == 1)
-	{
-	_putchar('0');
-	return (1);
-	}
-	if (d == -2147483648)
-	{
-		d = -d;
-		char_count += 1;
-		_putchar('-');
-		_putchar('2');
-		print_int(147483648, 0);
-		return (len_num(d) + char_count);
-	}
 	if (d < 0)
 	{
-		char_count++;
-		_putchar('-');
+		char_count += putchar('-');
 		d = -d;
 	}
-	if (d == 0 && checker == 0)
+	else
 	{
-		return (0);
-	}
-		print_int(d / 10, 0);
-		_putchar('0' + d % 10);
 		char_count += len_num(d);
+	}
+
+	if (d == -2147483648)
+	{
+		char_count += 1;
+		putchar('2');
+		print_int(147483648);
+		return (char_count);
+	}
+	else if (d < 0)
+	{
+		putchar('-');
+		char_count++;
+		d = -d;
+	}
+
+	if (d >= 10)
+	{
+		print_int(d / 10);
+		print_int(d % 10);
+	}
+	else if (d < 10)
+	{
+		putchar(d + '0');
+	}
 	return (char_count);
 }
 
@@ -61,7 +66,7 @@ int print_str(va_list ap)
 	{
 		while (*null_str)
 		{
-			_putchar(*null_str);
+			putchar(*null_str);
 			count++;
 			null_str++;
 		}
@@ -69,7 +74,7 @@ int print_str(va_list ap)
 	}
 	while (*str)
 	{
-		_putchar(*str);
+		putchar(*str);
 		count++;
 		str++;
 	}
@@ -88,7 +93,7 @@ int print_char(va_list ap)
 	int c;
 
 	c = va_arg(ap, int);
-	_putchar(c);
+	putchar(c);
 	return (1);
 }
 
@@ -102,7 +107,7 @@ int print_char(va_list ap)
 int print_mod(va_list ap)
 {
 	ap = ap;
-	_putchar('%');
+	putchar('%');
 	return (1);
 }
 
@@ -129,15 +134,14 @@ int print_binary(va_list ap)
 	{
 		if (binary[j] == 0)
 		{
-			_putchar('0');
+			putchar('0');
 			count++;
 		}
 		else
 		{
-			_putchar('1');
+			putchar('1');
 			count++;
 		}
 	}
 	return (count);
 }
-
